@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "299375459032",
+    "firebase_url": "https://tugas-pbp-uts-default-rtdb.firebaseio.com",
+    "project_id": "tugas-pbp-uts",
+    "storage_bucket": "tugas-pbp-uts.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:299375459032:android:33a625d3d71e07176eb5ad",
+        "android_client_info": {
+          "package_name": "com.example.loginscreen"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmWPAWg340x9LugegyoQFvuchCqt-dMco"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
