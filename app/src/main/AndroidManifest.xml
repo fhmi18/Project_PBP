@@ -13,9 +13,6 @@
         android:theme="@style/Theme.LoginScreen"
         tools:targetApi="31">
         <activity
-            android:name=".Method"
-            android:exported="false" />
-        <activity
             android:name=".Sign_Up"
             android:exported="false" />
         <activity

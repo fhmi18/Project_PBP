@@ -1,41 +1,46 @@
 package com.example.loginscreen;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
-//    EditText username;
-//    EditText password;
-//    Button loginButton;
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        EdgeToEdge.enable(this);
-//        setContentView(R.layout.activity_main);
-//
-//        username = findViewById(R.id.username);
-//        password = findViewById(R.id.password);
-//        loginButton = findViewById(R.id.loginButton);
-//        loginButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (username.getText().toString().equals("fahmi@gmail.com") && password.getText().toString().equals("123")) {
-//                    Toast.makeText(MainActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
-//                } else {
-//                    Toast.makeText(MainActivity.this, "Login Failed!", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
-//    }
+    TextView welcomeText;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        View logoutButton = findViewById(R.id.logoutButton);
+
+        welcomeText = findViewById(R.id.welcomeText);
+
+        Intent intent = getIntent();
+        String username = intent.getStringExtra("username");
+
+        if (username != null && !username.isEmpty()) {
+            welcomeText.setText("Welcome, " + username + "!");
+        } else {
+            Toast.makeText(this, "No username received!", Toast.LENGTH_SHORT).show();
+        }
+
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Login.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+    }
 }

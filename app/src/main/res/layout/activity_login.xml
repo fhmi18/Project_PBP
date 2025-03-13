@@ -9,7 +9,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="5dp"
-    android:background="@drawable/login_image"
+    android:background="@drawable/sign_in"
     tools:context=".MainActivity">
 
     <!--    <androidx.cardview.widget.CardView-->
@@ -74,8 +74,8 @@
         android:id="@+id/loginButton"
         android:layout_width="400dp"
         android:layout_height="70dp"
-        android:layout_marginTop="100dp"
-        android:backgroundTint="@color/purple"
+        android:layout_marginTop="85dp"
+        android:backgroundTint="@color/Primary"
         android:text="Login"
         android:textSize="18sp"
         app:cornerRadius="20dp" />
@@ -84,12 +84,12 @@
         android:id="@+id/signupRedirectText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="246dp"
+        android:layout_marginTop="195dp"
         android:layout_marginLeft="260dp"
         android:padding="8dp"
         android:text="SignUp Now"
         android:textAlignment="center"
-        android:textColor="@color/purple"
+        android:textColor="@color/Primary"
         android:textSize="14sp" />
 
 

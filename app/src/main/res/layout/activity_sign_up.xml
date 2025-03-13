@@ -67,8 +67,8 @@
         android:id="@+id/SignUpButton"
         android:layout_width="400dp"
         android:layout_height="70dp"
-        android:layout_marginTop="70dp"
-        android:backgroundTint="@color/purple"
+        android:layout_marginTop="50dp"
+        android:backgroundTint="@color/Primary"
         android:text="Login"
         android:textSize="18sp"
         app:cornerRadius="20dp" />
@@ -77,12 +77,12 @@
         android:id="@+id/loginRedirectText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="190dp"
+        android:layout_marginTop="147dp"
         android:layout_marginLeft="270dp"
         android:padding="8dp"
         android:text="Login Now"
         android:textAlignment="center"
-        android:textColor="@color/purple"
+        android:textColor="@color/Primary"
         android:textSize="14sp" />
 
 
