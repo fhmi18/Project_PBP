@@ -2,15 +2,21 @@ package com.example.loginscreen;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.util.Patterns;
+import android.text.TextPaint;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import com.google.android.material.snackbar.Snackbar;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,7 +31,7 @@ public class Sign_Up extends AppCompatActivity {
     private ProgressBar progressBar;
 
     private FirebaseAuth auth;
-
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +46,14 @@ public class Sign_Up extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
 
         auth = FirebaseAuth.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
 
-        signUpButton.setOnClickListener(view -> registerUser());
-
-        loginRedirectText.setOnClickListener(view -> {
-            startActivity(new Intent(Sign_Up.this, Login.class));
+        signUpButton.setOnClickListener(view -> {
+            signUpButton.setEnabled(false);
+            registerUser();
         });
+
+        setupClickableLoginText();
     }
 
     private void registerUser() {
@@ -53,33 +61,8 @@ public class Sign_Up extends AppCompatActivity {
         String passwordInput = password.getText().toString().trim();
         String confirmPasswordInput = conpassword.getText().toString().trim();
 
-        if (emailInput.isEmpty()) {
-            email.setError("Email tidak boleh kosong!");
-            email.requestFocus();
-            return;
-        }
-
-        if (!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
-            email.setError("Masukkan email yang valid!");
-            email.requestFocus();
-            return;
-        }
-
-        if (passwordInput.isEmpty()) {
-            password.setError("Password tidak boleh kosong!");
-            password.requestFocus();
-            return;
-        }
-
-        if (passwordInput.length() < 6) {
-            password.setError("Password harus minimal 6 karakter!");
-            password.requestFocus();
-            return;
-        }
-
-        if (!passwordInput.equals(confirmPasswordInput)) {
-            conpassword.setError("Password tidak cocok!");
-            conpassword.requestFocus();
+        if (!validateInputs(emailInput, passwordInput, confirmPasswordInput)) {
+            signUpButton.setEnabled(true);
             return;
         }
 
@@ -93,9 +76,10 @@ public class Sign_Up extends AppCompatActivity {
                             user.sendEmailVerification()
                                     .addOnCompleteListener(task1 -> {
                                         if (task1.isSuccessful()) {
-                                            Toast.makeText(Sign_Up.this, "Registrasi berhasil! Cek email untuk verifikasi.", Toast.LENGTH_LONG).show();
+                                            showSnackbar("Registrasi berhasil! Cek email untuk verifikasi.");
+                                            saveUserData(user.getUid(), emailInput);
                                         } else {
-                                            Toast.makeText(Sign_Up.this, "Gagal mengirim email verifikasi.", Toast.LENGTH_SHORT).show();
+                                            showSnackbar("Gagal mengirim email verifikasi.");
                                         }
                                     });
                         }
@@ -105,8 +89,95 @@ public class Sign_Up extends AppCompatActivity {
                         finish();
                     } else {
                         progressBar.setVisibility(View.GONE);
-                        Toast.makeText(Sign_Up.this, "Registrasi gagal: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        showSnackbar("Registrasi gagal: " + task.getException().getMessage());
+                        signUpButton.setEnabled(true);
                     }
                 });
+    }
+
+    private boolean validateInputs(String emailInput, String passwordInput, String confirmPasswordInput) {
+        if (emailInput.isEmpty()) {
+            email.setError("Email tidak boleh kosong!");
+            email.requestFocus();
+            return false;
+        }
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
+            email.setError("Masukkan email yang valid!");
+            email.requestFocus();
+            return false;
+        }
+
+        if (passwordInput.isEmpty()) {
+            password.setError("Password tidak boleh kosong!");
+            password.requestFocus();
+            return false;
+        }
+
+        if (passwordInput.length() < 6) {
+            password.setError("Password harus minimal 6 karakter!");
+            password.requestFocus();
+            return false;
+        }
+
+        if (!passwordInput.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$")) {
+            password.setError("Gunakan kombinasi huruf besar, kecil, dan angka!");
+            password.requestFocus();
+            return false;
+        }
+
+        if (!passwordInput.equals(confirmPasswordInput)) {
+            conpassword.setError("Password tidak cocok!");
+            conpassword.requestFocus();
+            return false;
+        }
+
+        return true;
+    }
+
+    private void saveUserData(String userId, String email) {
+        User user = new User(userId, email);
+        databaseReference.child(userId).setValue(user).addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                showSnackbar("Gagal menyimpan data pengguna.");
+            }
+        });
+    }
+
+    private void showSnackbar(String message) {
+        Snackbar.make(findViewById(R.id.main), message, Snackbar.LENGTH_LONG).show();
+    }
+
+    private void setupClickableLoginText() {
+        String fullText = "Already have an account? Login now";
+        SpannableString spannableString = new SpannableString(fullText);
+        int startIndex = fullText.indexOf("Login now");
+
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+                startActivity(new Intent(Sign_Up.this, Login.class));
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setColor(ContextCompat.getColor(Sign_Up.this, R.color.Primary));
+                ds.setUnderlineText(false);
+            }
+        };
+
+        spannableString.setSpan(clickableSpan, startIndex, startIndex + "Login now".length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        loginRedirectText.setText(spannableString);
+        loginRedirectText.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    static class User {
+        public String userId, email;
+
+        public User(String userId, String email) {
+            this.userId = userId;
+            this.email = email;
+        }
     }
 }
