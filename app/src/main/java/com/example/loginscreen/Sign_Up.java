@@ -6,13 +6,14 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.text.TextPaint;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.util.Patterns;
-import android.text.TextPaint;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -77,24 +78,22 @@ public class Sign_Up extends AppCompatActivity {
                             user.sendEmailVerification()
                                     .addOnCompleteListener(task1 -> {
                                         if (task1.isSuccessful()) {
-                                            showSnackbar("Registrasi berhasil! Cek email untuk verifikasi.");
+                                            Toast.makeText(Sign_Up.this,
+                                                    "Registrasi berhasil! Cek email untuk verifikasi.",
+                                                    Toast.LENGTH_LONG).show();
                                             saveUserData(user.getUid(), emailInput);
                                         } else {
                                             showSnackbar("Gagal mengirim email verifikasi.");
                                         }
                                     });
-                        }
 
-                        progressBar.setVisibility(View.GONE);
-                        Intent intent = new Intent(Sign_Up.this, Login.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // Membersihkan stack activity
-                        startActivity(intent);
-                        finish();
+                            // Panggil metode validasi email untuk memastikan pengguna telah verifikasi
+                            validateEmailVerification();
+                        }
                     } else {
                         progressBar.setVisibility(View.GONE);
                         signUpButton.setEnabled(true);
 
-                        // Tangani jika email sudah terdaftar
                         if (task.getException() instanceof FirebaseAuthUserCollisionException) {
                             showSnackbar("Email sudah terdaftar. Silakan gunakan email lain.");
                         } else {
@@ -157,6 +156,21 @@ public class Sign_Up extends AppCompatActivity {
         Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show();
     }
 
+    private void validateEmailVerification() {
+        FirebaseUser user = auth.getCurrentUser();
+        if (user != null) {
+            user.reload().addOnCompleteListener(task -> {
+                if (user.isEmailVerified()) {
+                    Toast.makeText(Sign_Up.this, "Email telah diverifikasi!", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(Sign_Up.this, Login.class));
+                    finish();
+                } else {
+                    Toast.makeText(Sign_Up.this, "Silakan verifikasi email Anda terlebih dahulu.", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+    }
+
     private void setupClickableLoginText() {
         String fullText = "Sudah punya akun? Login sekarang";
         SpannableString spannableString = new SpannableString(fullText);
@@ -167,7 +181,7 @@ public class Sign_Up extends AppCompatActivity {
             public void onClick(View widget) {
                 Intent intent = new Intent(Sign_Up.this, Login.class);
                 startActivity(intent);
-                finish(); // Mencegah kembali ke Sign Up setelah login
+                finish();
             }
 
             @Override

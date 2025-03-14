@@ -40,7 +40,7 @@ public class Login extends AppCompatActivity {
         loginPassword = findViewById(R.id.password);
         loginButton = findViewById(R.id.loginButton);
         signupRedirectText = findViewById(R.id.signupRedirectText);
-        TextView forgotPassword = findViewById(R.id.forgotPassword);
+        forgotPassword = findViewById(R.id.forgotPassword);
 
         loginButton.setOnClickListener(view -> loginUser());
 
@@ -55,7 +55,7 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        // Jika sudah login, langsung ke MainActivity
+        // Jika sudah login sebelumnya, langsung ke MainActivity
         if (sharedPreferences.getBoolean("isLoggedIn", false)) {
             startActivity(new Intent(Login.this, MainActivity.class));
             finish();
@@ -82,20 +82,24 @@ public class Login extends AppCompatActivity {
             if (task.isSuccessful()) {
                 FirebaseUser user = mAuth.getCurrentUser();
                 if (user != null) {
-                    Toast.makeText(Login.this, "Login Berhasil!", Toast.LENGTH_SHORT).show();
+                    if (user.isEmailVerified()) {
+                        // Simpan status login jika email sudah diverifikasi
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putBoolean("isLoggedIn", true);
+                        editor.putString("userEmail", user.getEmail());
+                        editor.apply();
 
-                    // Simpan status login di SharedPreferences
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putBoolean("isLoggedIn", true);
-                    editor.putString("userEmail", user.getEmail());
-                    editor.apply();
-
-                    // Masuk ke MainActivity
-                    Intent intent = new Intent(Login.this, MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // Tambahkan flag di sini
-                    intent.putExtra("userEmail", user.getEmail());
-                    startActivity(intent);
-                    finish();
+                        Toast.makeText(Login.this, "Login Berhasil!", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(Login.this, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        intent.putExtra("userEmail", user.getEmail());
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        // Jika email belum diverifikasi, logout otomatis
+                        mAuth.signOut();
+                        Toast.makeText(Login.this, "Verifikasi email Anda sebelum login!", Toast.LENGTH_LONG).show();
+                    }
                 }
             } else {
                 Toast.makeText(Login.this, "Login Gagal! Cek email dan password.", Toast.LENGTH_SHORT).show();
