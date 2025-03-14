@@ -3,6 +3,11 @@ package com.example.loginscreen;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -18,7 +24,7 @@ public class Login extends AppCompatActivity {
 
     EditText loginEmail, loginPassword;
     Button loginButton;
-    TextView signupRedirectText;
+    TextView signupRedirectText, forgotPassword;
     FirebaseAuth mAuth;
     SharedPreferences sharedPreferences;
 
@@ -34,6 +40,7 @@ public class Login extends AppCompatActivity {
         loginPassword = findViewById(R.id.password);
         loginButton = findViewById(R.id.loginButton);
         signupRedirectText = findViewById(R.id.signupRedirectText);
+        TextView forgotPassword = findViewById(R.id.forgotPassword);
 
         loginButton.setOnClickListener(view -> loginUser());
 
@@ -41,6 +48,8 @@ public class Login extends AppCompatActivity {
             Intent intent = new Intent(Login.this, Sign_Up.class);
             startActivity(intent);
         });
+
+        setupClickableSignupText();
     }
 
     @Override
@@ -83,6 +92,7 @@ public class Login extends AppCompatActivity {
 
                     // Masuk ke MainActivity
                     Intent intent = new Intent(Login.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // Tambahkan flag di sini
                     intent.putExtra("userEmail", user.getEmail());
                     startActivity(intent);
                     finish();
@@ -91,5 +101,35 @@ public class Login extends AppCompatActivity {
                 Toast.makeText(Login.this, "Login Gagal! Cek email dan password.", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void setupClickableSignupText() {
+        String fullText = "Belum memiliki akun? Sign Up sekarang";
+        SpannableString spannableString = new SpannableString(fullText);
+        String clickableText = "Sign Up sekarang";
+        int startIndex = fullText.indexOf(clickableText);
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+                Intent intent = new Intent(Login.this, Sign_Up.class);
+                startActivity(intent);
+                finish();
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setColor(ContextCompat.getColor(Login.this, R.color.Primary));
+                ds.setUnderlineText(false);
+            }
+        };
+        spannableString.setSpan(
+                clickableSpan,
+                startIndex,
+                startIndex + clickableText.length(),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        );
+        signupRedirectText.setText(spannableString);
+        signupRedirectText.setMovementMethod(LinkMovementMethod.getInstance());
     }
 }

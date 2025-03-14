@@ -20,6 +20,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -85,12 +86,20 @@ public class Sign_Up extends AppCompatActivity {
                         }
 
                         progressBar.setVisibility(View.GONE);
-                        startActivity(new Intent(Sign_Up.this, Login.class));
+                        Intent intent = new Intent(Sign_Up.this, Login.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // Membersihkan stack activity
+                        startActivity(intent);
                         finish();
                     } else {
                         progressBar.setVisibility(View.GONE);
-                        showSnackbar("Registrasi gagal: " + task.getException().getMessage());
                         signUpButton.setEnabled(true);
+
+                        // Tangani jika email sudah terdaftar
+                        if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                            showSnackbar("Email sudah terdaftar. Silakan gunakan email lain.");
+                        } else {
+                            showSnackbar("Registrasi gagal: " + task.getException().getMessage());
+                        }
                     }
                 });
     }
@@ -145,18 +154,20 @@ public class Sign_Up extends AppCompatActivity {
     }
 
     private void showSnackbar(String message) {
-        Snackbar.make(findViewById(R.id.main), message, Snackbar.LENGTH_LONG).show();
+        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show();
     }
 
     private void setupClickableLoginText() {
-        String fullText = "Already have an account? Login now";
+        String fullText = "Sudah punya akun? Login sekarang";
         SpannableString spannableString = new SpannableString(fullText);
-        int startIndex = fullText.indexOf("Login now");
+        int startIndex = fullText.indexOf("Login sekarang");
 
         ClickableSpan clickableSpan = new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-                startActivity(new Intent(Sign_Up.this, Login.class));
+                Intent intent = new Intent(Sign_Up.this, Login.class);
+                startActivity(intent);
+                finish(); // Mencegah kembali ke Sign Up setelah login
             }
 
             @Override
@@ -167,7 +178,7 @@ public class Sign_Up extends AppCompatActivity {
             }
         };
 
-        spannableString.setSpan(clickableSpan, startIndex, startIndex + "Login now".length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(clickableSpan, startIndex, startIndex + "Login sekarang".length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         loginRedirectText.setText(spannableString);
         loginRedirectText.setMovementMethod(LinkMovementMethod.getInstance());
     }
