@@ -21,15 +21,16 @@
         android:padding="24dp">
 
         <EditText
-            android:id="@+id/username"
+            android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="61dp"
             android:layout_marginTop="80dp"
             android:background="@drawable/custom_editext"
-            android:drawableLeft="@drawable/baseline_person_24"
+            android:drawableLeft="@drawable/baseline_email_24"
             android:drawablePadding="8dp"
-            android:hint="Username"
+            android:hint="Email"
             android:padding="8dp"
+            android:inputType="textEmailAddress"
             android:textColor="@color/black"
             android:textColorHighlight="@color/cardview_dark_background" />
 
@@ -85,5 +86,11 @@
         android:textColor="@color/Primary"
         android:textSize="14sp" />
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_gravity="center" />
 
 </LinearLayout>

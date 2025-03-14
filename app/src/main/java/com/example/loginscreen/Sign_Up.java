@@ -5,77 +5,108 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.util.Patterns;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class Sign_Up extends AppCompatActivity {
 
-    EditText signupConfirmPassword, signupUsername, signupPassword;
-    TextView loginRedirectText;
-    Button signupButton;
-    FirebaseDatabase database;
-    DatabaseReference reference;
+    private EditText email, password, conpassword;
+    private Button signUpButton;
+    private TextView loginRedirectText;
+    private ProgressBar progressBar;
+
+    private FirebaseAuth auth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        signupUsername = findViewById(R.id.username);
-        signupPassword = findViewById(R.id.password);
-        signupConfirmPassword = findViewById(R.id.conpassword);
+        email = findViewById(R.id.email);
+        password = findViewById(R.id.password);
+        conpassword = findViewById(R.id.conpassword);
+        signUpButton = findViewById(R.id.SignUpButton);
         loginRedirectText = findViewById(R.id.loginRedirectText);
-        signupButton = findViewById(R.id.SignUpButton);
+        progressBar = findViewById(R.id.progressBar);
 
-        signupButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                database = FirebaseDatabase.getInstance();
-                reference = database.getReference("users");
+        auth = FirebaseAuth.getInstance();
 
+        signUpButton.setOnClickListener(view -> registerUser());
 
-                String username = signupUsername.getText().toString().trim();
-                String password = signupPassword.getText().toString().trim();
-                String confirmPassword = signupConfirmPassword.getText().toString().trim();
-
-                if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-                    Toast.makeText(Sign_Up.this, "Please fill all fields!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (!password.equals(confirmPassword)) {
-                    Toast.makeText(Sign_Up.this, "Passwords do not match!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (password.length() < 6) {
-                    Toast.makeText(Sign_Up.this, "Password must be at least 6 characters!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-
-                MethodAuth methodAuth = new MethodAuth(username, "******", "******");
-                reference.child(username).setValue(methodAuth);
-
-                Toast.makeText(Sign_Up.this, "You have signed up successfully!", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(Sign_Up.this, Login.class);
-                startActivity(intent);
-                finish();
-            }
+        loginRedirectText.setOnClickListener(view -> {
+            startActivity(new Intent(Sign_Up.this, Login.class));
         });
+    }
 
-        loginRedirectText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Sign_Up.this, Login.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+    private void registerUser() {
+        String emailInput = email.getText().toString().trim();
+        String passwordInput = password.getText().toString().trim();
+        String confirmPasswordInput = conpassword.getText().toString().trim();
+
+        if (emailInput.isEmpty()) {
+            email.setError("Email tidak boleh kosong!");
+            email.requestFocus();
+            return;
+        }
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
+            email.setError("Masukkan email yang valid!");
+            email.requestFocus();
+            return;
+        }
+
+        if (passwordInput.isEmpty()) {
+            password.setError("Password tidak boleh kosong!");
+            password.requestFocus();
+            return;
+        }
+
+        if (passwordInput.length() < 6) {
+            password.setError("Password harus minimal 6 karakter!");
+            password.requestFocus();
+            return;
+        }
+
+        if (!passwordInput.equals(confirmPasswordInput)) {
+            conpassword.setError("Password tidak cocok!");
+            conpassword.requestFocus();
+            return;
+        }
+
+        progressBar.setVisibility(View.VISIBLE);
+
+        auth.createUserWithEmailAndPassword(emailInput, passwordInput)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = auth.getCurrentUser();
+                        if (user != null) {
+                            user.sendEmailVerification()
+                                    .addOnCompleteListener(task1 -> {
+                                        if (task1.isSuccessful()) {
+                                            Toast.makeText(Sign_Up.this, "Registrasi berhasil! Cek email untuk verifikasi.", Toast.LENGTH_LONG).show();
+                                        } else {
+                                            Toast.makeText(Sign_Up.this, "Gagal mengirim email verifikasi.", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                        }
+
+                        progressBar.setVisibility(View.GONE);
+                        startActivity(new Intent(Sign_Up.this, Login.class));
+                        finish();
+                    } else {
+                        progressBar.setVisibility(View.GONE);
+                        Toast.makeText(Sign_Up.this, "Registrasi gagal: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 }
