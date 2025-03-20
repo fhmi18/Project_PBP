@@ -11,6 +11,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,7 +32,7 @@ public class Sign_Up extends AppCompatActivity {
     private Button signUpButton;
     private TextView loginRedirectText;
     private ProgressBar progressBar;
-
+    private ImageButton backButton;
     private FirebaseAuth auth;
     private DatabaseReference databaseReference;
 
@@ -44,6 +45,7 @@ public class Sign_Up extends AppCompatActivity {
         password = findViewById(R.id.password);
         conpassword = findViewById(R.id.conpassword);
         signUpButton = findViewById(R.id.SignUpButton);
+        backButton = findViewById(R.id.backButton);
         loginRedirectText = findViewById(R.id.loginRedirectText);
         progressBar = findViewById(R.id.progressBar);
 
@@ -56,6 +58,12 @@ public class Sign_Up extends AppCompatActivity {
         });
 
         setupClickableLoginText();
+
+        backButton.setOnClickListener(view -> {
+            Intent intent = new Intent(Sign_Up.this, Login.class);
+            startActivity(intent);
+            finish();
+        });
     }
 
     private void registerUser() {
