@@ -2,6 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="gray">#898989</color>
     <color name="Primary">#F4342F</color>
     <color name="facebookBlue">#1877F2</color>
     <color name="googleRed">#DB4437</color>

@@ -1,4 +1,4 @@
-package com.example.loginscreen;
+package com.example.veteranreccanteen;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -57,7 +57,7 @@ public class Login extends AppCompatActivity {
         super.onStart();
         // Jika sudah login sebelumnya, langsung ke MainActivity
         if (sharedPreferences.getBoolean("isLoggedIn", false)) {
-            startActivity(new Intent(Login.this, MainActivity.class));
+            startActivity(new Intent(Login.this, Homepage.class));
             finish();
         }
     }
@@ -90,7 +90,7 @@ public class Login extends AppCompatActivity {
                         editor.apply();
 
                         Toast.makeText(Login.this, "Login Berhasil!", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(Login.this, MainActivity.class);
+                        Intent intent = new Intent(Login.this, Homepage.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         intent.putExtra("userEmail", user.getEmail());
                         startActivity(intent);

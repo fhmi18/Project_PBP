@@ -1,4 +1,4 @@
-package com.example.loginscreen;
+package com.example.veteranreccanteen;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-public class MainActivity extends AppCompatActivity {
+public class Homepage extends AppCompatActivity {
 
     TextView welcomeText;
     private long backPressedTime;
@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_home);
 
         View logoutButton = findViewById(R.id.logoutButton);
         welcomeText = findViewById(R.id.welcomeText);
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         editor.apply();
 
         // Kembali ke Login Page
-        Intent intent = new Intent(MainActivity.this, Login.class);
+        Intent intent = new Intent(Homepage.this, Login.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();

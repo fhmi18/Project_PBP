@@ -1,4 +1,4 @@
-package com.example.loginscreen;
+package com.example.veteranreccanteen;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,7 +18,7 @@ public class SplashScreen extends AppCompatActivity {
 
             Intent intent;
             if (isLoggedIn) {
-                intent = new Intent(SplashScreen.this, MainActivity.class);
+                intent = new Intent(SplashScreen.this, Homepage.class);
             } else {
                 intent = new Intent(SplashScreen.this, Login.class);
             }

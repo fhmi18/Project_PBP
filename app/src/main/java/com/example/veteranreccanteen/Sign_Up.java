@@ -1,4 +1,4 @@
-package com.example.loginscreen;
+package com.example.veteranreccanteen;
 
 import android.content.Intent;
 import android.os.Bundle;

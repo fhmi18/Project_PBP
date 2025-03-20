@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.loginscreen"
-    compileSdk = 34
+    namespace = "com.example.veteranreccanteen"
+    compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.loginscreen"
+        applicationId = "com.example.veteranreccanteen"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Login Screen"
+rootProject.name = "Veteran Recommendation Canteen"
 include(":app")
  
