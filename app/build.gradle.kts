@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.veteranreccanteen"
+    namespace = "com.example.veteranrecommendationcanteen"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.veteranreccanteen"
+        applicationId = "com.example.veteranrecommendationcanteen"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -41,7 +41,7 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.firebase.database)
 
-    implementation(platform("com.google.firebase:firebase-bom:33.10.0"))
+    implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
     implementation("com.google.firebase:firebase-auth:23.2.0")
     implementation("com.google.firebase:firebase-database:21.0.0")
 

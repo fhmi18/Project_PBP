@@ -1,4 +1,4 @@
-package com.example.veteranreccanteen;
+package com.example.veteranrecommendationcanteen;
 
 import java.util.Objects;
 

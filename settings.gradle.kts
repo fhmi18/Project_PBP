@@ -21,4 +21,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "Veteran Recommendation Canteen"
 include(":app")
- 

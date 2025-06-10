@@ -1,4 +1,4 @@
-package com.example.veteranreccanteen;
+package com.example.veteranrecommendationcanteen;
 
 import org.junit.Test;
 

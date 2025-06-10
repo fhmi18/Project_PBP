@@ -1,4 +1,4 @@
-package com.example.veteranreccanteen;
+package com.example.veteranrecommendationcanteen.UI;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+
+import com.example.veteranrecommendationcanteen.R;
 import com.google.android.material.snackbar.Snackbar;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,7 +28,7 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class Sign_Up extends AppCompatActivity {
+public class SignUp extends AppCompatActivity {
 
     private EditText email, password, conpassword;
     private Button signUpButton;
@@ -60,7 +62,7 @@ public class Sign_Up extends AppCompatActivity {
         setupClickableLoginText();
 
         backButton.setOnClickListener(view -> {
-            Intent intent = new Intent(Sign_Up.this, Login.class);
+            Intent intent = new Intent(SignUp.this, LogIn.class);
             startActivity(intent);
             finish();
         });
@@ -86,7 +88,7 @@ public class Sign_Up extends AppCompatActivity {
                             user.sendEmailVerification()
                                     .addOnCompleteListener(task1 -> {
                                         if (task1.isSuccessful()) {
-                                            Toast.makeText(Sign_Up.this,
+                                            Toast.makeText(SignUp.this,
                                                     "Registrasi berhasil! Cek email untuk verifikasi.",
                                                     Toast.LENGTH_LONG).show();
                                             saveUserData(user.getUid(), emailInput);
@@ -169,25 +171,25 @@ public class Sign_Up extends AppCompatActivity {
         if (user != null) {
             user.reload().addOnCompleteListener(task -> {
                 if (user.isEmailVerified()) {
-                    Toast.makeText(Sign_Up.this, "Email telah diverifikasi!", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(Sign_Up.this, Login.class));
+                    Toast.makeText(SignUp.this, "Email telah diverifikasi!", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(SignUp.this, LogIn.class));
                     finish();
                 } else {
-                    Toast.makeText(Sign_Up.this, "Silakan verifikasi email Anda terlebih dahulu.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SignUp.this, "Silakan verifikasi email Anda terlebih dahulu.", Toast.LENGTH_LONG).show();
                 }
             });
         }
     }
 
     private void setupClickableLoginText() {
-        String fullText = "Sudah punya akun? Login sekarang";
+        String fullText = "Sudah punya akun? LogIn sekarang";
         SpannableString spannableString = new SpannableString(fullText);
-        int startIndex = fullText.indexOf("Login sekarang");
+        int startIndex = fullText.indexOf("LogIn sekarang");
 
         ClickableSpan clickableSpan = new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-                Intent intent = new Intent(Sign_Up.this, Login.class);
+                Intent intent = new Intent(SignUp.this, LogIn.class);
                 startActivity(intent);
                 finish();
             }
@@ -195,12 +197,12 @@ public class Sign_Up extends AppCompatActivity {
             @Override
             public void updateDrawState(TextPaint ds) {
                 super.updateDrawState(ds);
-                ds.setColor(ContextCompat.getColor(Sign_Up.this, R.color.Primary));
+                ds.setColor(ContextCompat.getColor(SignUp.this, R.color.Primary));
                 ds.setUnderlineText(false);
             }
         };
 
-        spannableString.setSpan(clickableSpan, startIndex, startIndex + "Login sekarang".length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(clickableSpan, startIndex, startIndex + "LogIn sekarang".length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         loginRedirectText.setText(spannableString);
         loginRedirectText.setMovementMethod(LinkMovementMethod.getInstance());
     }

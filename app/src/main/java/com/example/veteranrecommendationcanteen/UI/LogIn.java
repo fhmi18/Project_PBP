@@ -1,4 +1,4 @@
-package com.example.veteranreccanteen;
+package com.example.veteranrecommendationcanteen.UI;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,10 +17,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.example.veteranrecommendationcanteen.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class Login extends AppCompatActivity {
+public class LogIn extends AppCompatActivity {
 
     EditText loginEmail, loginPassword;
     Button loginButton;
@@ -31,7 +32,7 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_log_in);
 
         mAuth = FirebaseAuth.getInstance();
         sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
@@ -45,7 +46,7 @@ public class Login extends AppCompatActivity {
         loginButton.setOnClickListener(view -> loginUser());
 
         signupRedirectText.setOnClickListener(view -> {
-            Intent intent = new Intent(Login.this, Sign_Up.class);
+            Intent intent = new Intent(LogIn.this, SignUp.class);
             startActivity(intent);
         });
 
@@ -57,7 +58,7 @@ public class Login extends AppCompatActivity {
         super.onStart();
         // Jika sudah login sebelumnya, langsung ke MainActivity
         if (sharedPreferences.getBoolean("isLoggedIn", false)) {
-            startActivity(new Intent(Login.this, Homepage.class));
+            startActivity(new Intent(LogIn.this, MainPage.class));
             finish();
         }
     }
@@ -89,8 +90,8 @@ public class Login extends AppCompatActivity {
                         editor.putString("userEmail", user.getEmail());
                         editor.apply();
 
-                        Toast.makeText(Login.this, "Login Berhasil!", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(Login.this, Homepage.class);
+                        Toast.makeText(LogIn.this, "LogIn Berhasil!", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(LogIn.this, MainPage.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         intent.putExtra("userEmail", user.getEmail());
                         startActivity(intent);
@@ -98,11 +99,11 @@ public class Login extends AppCompatActivity {
                     } else {
                         // Jika email belum diverifikasi, logout otomatis
                         mAuth.signOut();
-                        Toast.makeText(Login.this, "Verifikasi email Anda sebelum login!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(LogIn.this, "Verifikasi email Anda sebelum login!", Toast.LENGTH_LONG).show();
                     }
                 }
             } else {
-                Toast.makeText(Login.this, "Login Gagal! Cek email dan password.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LogIn.this, "LogIn Gagal! Cek email dan password.", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -115,7 +116,7 @@ public class Login extends AppCompatActivity {
         ClickableSpan clickableSpan = new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-                Intent intent = new Intent(Login.this, Sign_Up.class);
+                Intent intent = new Intent(LogIn.this, SignUp.class);
                 startActivity(intent);
                 finish();
             }
@@ -123,7 +124,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void updateDrawState(TextPaint ds) {
                 super.updateDrawState(ds);
-                ds.setColor(ContextCompat.getColor(Login.this, R.color.Primary));
+                ds.setColor(ContextCompat.getColor(LogIn.this, R.color.Primary));
                 ds.setUnderlineText(false);
             }
         };

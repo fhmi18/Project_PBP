@@ -22,13 +22,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Sign_Up"
+            android:name=".UI.SignUp"
             android:exported="false" />
         <activity
-            android:name=".Login"
+            android:name=".UI.LogIn"
             android:exported="false" />
         <activity
-            android:name=".Homepage"
+            android:name=".UI.MainPage"
             android:exported="false">
         </activity>
     </application>
