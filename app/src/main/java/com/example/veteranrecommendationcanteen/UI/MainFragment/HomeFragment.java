@@ -1,6 +1,7 @@
 package com.example.veteranrecommendationcanteen.UI.MainFragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -14,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.veteranrecommendationcanteen.R;
+import com.example.veteranrecommendationcanteen.UI.CanteenDetail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,17 +90,25 @@ public class HomeFragment extends Fragment {
             GridLayout.LayoutParams params = new GridLayout.LayoutParams();
             params.width = 0;
             params.height = GridLayout.LayoutParams.WRAP_CONTENT;
-            params.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f); // 1 kolom, bobot 1
-            params.setMargins(16, 16, 16, 16); // jarak antar item
+            params.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
+            params.setMargins(16, 16, 16, 16);
             card.setLayoutParams(params);
 
             TextView title = card.findViewById(R.id.recommendationTitle);
             TextView subtitle = card.findViewById(R.id.recommendationSubtitle);
-            View background = card.findViewById(R.id.recommendationOverlay);  // Tambahkan ID ini di layout
+            View background = card.findViewById(R.id.recommendationOverlay);
 
             title.setText(rec.title);
             subtitle.setText(rec.subtitle);
             background.setBackgroundResource(rec.colorId);
+
+            // ⬇ Tambahkan ini untuk menangani klik pada "Canteen"
+            if ("Canteen".equals(rec.title)) {
+                card.setOnClickListener(v -> {
+                    Intent intent = new Intent(requireContext(), CanteenDetail.class);
+                    startActivity(intent);
+                });
+            }
 
             recommendationContainer.addView(card);
         }

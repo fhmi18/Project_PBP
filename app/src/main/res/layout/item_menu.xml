@@ -4,21 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="23dp"
     android:elevation="2dp"
     android:padding="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
 
         <ImageView
             android:id="@+id/image"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/app_logo" />
+            android:src="@drawable/app_logo"
+            android:layout_gravity="center_vertical" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -36,7 +42,7 @@
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/location"
+                android:id="@+id/canteenName"
                 android:text="Kantin AAA"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -44,12 +50,12 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/priceInfo"
+                android:id="@+id/leastInfo"
                 android:text="Start from xxrb • Pondok Labu • available in xx min"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#888888"
-                android:textSize="12sp" />
+                android:textSize="10sp" />
 
             <LinearLayout
                 android:orientation="horizontal"

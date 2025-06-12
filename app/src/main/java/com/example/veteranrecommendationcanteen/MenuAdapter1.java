@@ -1,4 +1,4 @@
-package com.example.veteranrecommendationcanteen.UI.MainFragment;
+package com.example.veteranrecommendationcanteen;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,14 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import com.example.veteranrecommendationcanteen.R;
-import com.example.veteranrecommendationcanteen.MenuItem;
+public class MenuAdapter1 extends RecyclerView.Adapter<MenuAdapter1.MenuViewHolder> {
 
-public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder> {
+    private final List<MenuItem> menuList;
 
-    private List<MenuItem> menuList;
-
-    public MenuAdapter(List<MenuItem> menuList) {
+    public MenuAdapter1(List<MenuItem> menuList) {
         this.menuList = menuList;
     }
 
@@ -34,8 +31,8 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
     public void onBindViewHolder(@NonNull MenuViewHolder holder, int position) {
         MenuItem item = menuList.get(position);
         holder.name.setText(item.name);
-        holder.location.setText(item.location);
-        holder.priceInfo.setText(item.priceInfo);
+        holder.canteenName.setText(item.canteenName);
+        holder.leastInfo.setText(item.leastInfo);
         holder.image.setImageResource(item.imageResId);
     }
 
@@ -45,14 +42,14 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
     }
 
     public static class MenuViewHolder extends RecyclerView.ViewHolder {
-        TextView name, location, priceInfo;
+        TextView name, canteenName, leastInfo;
         ImageView image;
 
         public MenuViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.name);
-            location = itemView.findViewById(R.id.location);
-            priceInfo = itemView.findViewById(R.id.priceInfo);
+            canteenName = itemView.findViewById(R.id.canteenName);
+            leastInfo = itemView.findViewById(R.id.leastInfo);
             image = itemView.findViewById(R.id.image);
         }
     }

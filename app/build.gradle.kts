@@ -41,9 +41,10 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.firebase.database)
 
-    implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
-    implementation("com.google.firebase:firebase-auth:23.2.0")
-    implementation("com.google.firebase:firebase-database:21.0.0")
+    implementation(platform(libs.google.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.database)
+    implementation (libs.recyclerview.fastscroll)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

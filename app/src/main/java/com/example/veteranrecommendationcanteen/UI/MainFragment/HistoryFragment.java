@@ -1,7 +1,5 @@
 package com.example.veteranrecommendationcanteen.UI.MainFragment;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
+import com.example.veteranrecommendationcanteen.MenuAdapter1;
 import com.example.veteranrecommendationcanteen.R;
 import com.example.veteranrecommendationcanteen.MenuItem;
 
@@ -28,7 +26,7 @@ public class HistoryFragment extends Fragment {
     }
 
     private RecyclerView recyclerView;
-    private MenuAdapter adapter;
+    private MenuAdapter1 adapter;
 
     @Nullable
     @Override
@@ -45,8 +43,12 @@ public class HistoryFragment extends Fragment {
         menuList.add(new MenuItem("Chicken Skewers", "Kantin Ponlab 2", "Start from 20rb • Limo • available in 10 min", R.drawable.app_logo));
         menuList.add(new MenuItem("Omelette Fried Rice", "Kantin Ponlab 3", "Start from 14rb • Pondok Labu • available in 12 min", R.drawable.app_logo));
         menuList.add(new MenuItem("Indomie Noodles", "Kantin Ponlab 4", "Start from 6rb • Pondok Labu • available in 8 min", R.drawable.app_logo));
+        menuList.add(new MenuItem("Chicken Geprek", "Kantin Ponlab 1", "Start from 15rb • Pondok Labu • available in 15 min", R.drawable.app_logo));
+        menuList.add(new MenuItem("Chicken Skewers", "Kantin Ponlab 2", "Start from 20rb • Limo • available in 10 min", R.drawable.app_logo));
+        menuList.add(new MenuItem("Omelette Fried Rice", "Kantin Ponlab 3", "Start from 14rb • Pondok Labu • available in 12 min", R.drawable.app_logo));
+        menuList.add(new MenuItem("Indomie Noodles", "Kantin Ponlab 4", "Start from 6rb • Pondok Labu • available in 8 min", R.drawable.app_logo));
 
-        adapter = new MenuAdapter(menuList);
+        adapter = new MenuAdapter1(menuList);
         recyclerView.setAdapter(adapter);
 
         return view;

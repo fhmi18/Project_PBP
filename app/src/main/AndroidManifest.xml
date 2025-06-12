@@ -29,8 +29,10 @@
             android:exported="false" />
         <activity
             android:name=".UI.MainPage"
-            android:exported="false">
-        </activity>
+            android:exported="false" />
+        <activity
+            android:name=".UI.CanteenDetail"
+            android:exported="false" />
     </application>
 
 </manifest>

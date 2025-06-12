@@ -17,6 +17,7 @@
         android:layout_height="48dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@android:drawable/ic_menu_revert"
+        app:tint="@color/Primary"
         android:contentDescription="Back"
         android:layout_gravity="start" />
 
