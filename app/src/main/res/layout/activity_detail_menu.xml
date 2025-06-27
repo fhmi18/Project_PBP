@@ -1,0 +1,188 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <!-- Gambar Makanan -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp">
+
+        <ImageView
+            android:id="@+id/foodImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/app_logo" />
+
+        <!-- Tombol Close -->
+        <ImageButton
+            android:id="@+id/btnClose"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="12dp"
+            android:background="@drawable/bg_circle_white"
+            android:src="@drawable/ic_close"
+            tools:ignore="SpeakableTextPresentCheck" />
+    </RelativeLayout>
+
+    <!-- Detail -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/foodName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fried Rice Sausages"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#000000" />
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:scrollbars="vertical">
+
+            <TextView
+                android:id="@+id/foodDesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Orange leaves, chicken, tempeh, sambal, singkong, egg, crackers."
+                android:textSize="14sp"
+                android:layout_marginTop="4dp"
+                android:textColor="#555555" />
+        </ScrollView>
+
+        <!-- Harga -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/discountedPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rp15.000"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/originalPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rp23.000"
+                android:layout_marginStart="12dp"
+                android:textColor="#888888"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <!-- Tombol Extra Discount + Favorite -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/discountContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="start"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/btnDiscount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Extra discount"
+                    android:textAllCaps="false"
+                    android:backgroundTint="@color/blue"
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/btnFavorite"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center_vertical|end"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_love"
+                app:tint="@color/gray"
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+        </LinearLayout>
+
+        <!-- Komentar -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Comment"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_marginTop="16dp" />
+
+        <EditText
+            android:id="@+id/commentBox"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:hint="e.g. This food/beverage is awesome."
+            android:background="@drawable/bg_card"
+            android:padding="12dp"
+            android:gravity="top|start"
+            android:layout_marginTop="8dp"
+            android:inputType="textMultiLine" />
+
+        <!-- Rating dan Tombol Send -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:stepSize="1.0"
+                android:rating="0"
+                android:isIndicator="false"
+                android:layout_marginEnd="16dp"
+                style="?android:attr/rating" />
+
+            <Button
+                android:id="@+id/btnSend"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical|end"
+                android:text="Send"
+                android:textAllCaps="false"
+                android:backgroundTint="@color/Primary"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnAnotherComment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="@color/gray"
+            android:text="Look another comment"
+            tools:ignore="TouchTargetSizeCheck" />
+    </LinearLayout>
+</LinearLayout>

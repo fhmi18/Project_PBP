@@ -3,6 +3,7 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#898989</color>
+    <color name="blue">#2F80ED</color>
     <color name="Primary">#E94B64</color>
     <color name="facebookBlue">#1877F2</color>
     <color name="googleRed">#DB4437</color>

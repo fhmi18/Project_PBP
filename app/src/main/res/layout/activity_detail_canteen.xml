@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layoutMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:background="@android:color/white"
-    android:scrollbars="vertical">
+    android:scrollbars="vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,31 +17,66 @@
         <!-- HEADER -->
         <include layout="@layout/header_canteen" />
 
-        <!-- CHIP VIEW TOGGLE -->
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chipGroup"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_weight="1"
+                android:text="Menu Tab"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:paddingLeft="16dp"
+                android:textColor="@color/Primary"
+                tools:ignore="TextSizeCheck" />
+
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="View Mode"
+                android:textSize="10sp"
+                android:paddingLeft="4dp"
+                android:textColor="@color/Primary"
+                tools:ignore="TextSizeCheck" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:layout_marginBottom="12dp"
-            app:singleSelection="true">
+            android:gravity="center_vertical"
+            android:background="@color/white"
+            android:baselineAligned="false">
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipCardView"
-                style="@style/Widget.Material3.Chip.Filter"
-                android:text="Grid View (Kartu)"
-                app:checkedIconVisible="false"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            <!-- TabLayout untuk kategori menu -->
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:tabIndicatorColor="@color/Primary"
+                app:tabIndicatorHeight="4dp"
+                app:tabMode="scrollable"
+                app:tabSelectedTextColor="@color/Primary"
+                app:tabTextColor="#444444"
+                android:background="@color/white"
+                tools:ignore="SpeakableTextPresentCheck" />
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipListView"
-                style="@style/Widget.Material3.Chip.Filter"
-                android:text="List View"
-                app:checkedIconVisible="false"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </com.google.android.material.chip.ChipGroup>
+            <!-- Dropdown Spinner sebagai pengganti ChipGroup -->
+            <Spinner
+                android:id="@+id/viewModeSpinner"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:spinnerMode="dropdown"
+
+                android:entries="@array/view_modes" />
+        </LinearLayout>
 
         <!-- MENU CONTAINER -->
         <androidx.recyclerview.widget.RecyclerView

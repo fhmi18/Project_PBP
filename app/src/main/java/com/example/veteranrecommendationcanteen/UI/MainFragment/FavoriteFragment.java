@@ -39,10 +39,10 @@ public class FavoriteFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         List<MenuItem> menuList = new ArrayList<>();
-        menuList.add(new MenuItem("Chicken Geprek", "Kantin Ponlab 1", "Start from 15rb • Pondok Labu • available in 15 min", R.drawable.app_logo));
-        menuList.add(new MenuItem("Chicken Skewers", "Kantin Ponlab 2", "Start from 20rb • Limo • available in 10 min", R.drawable.app_logo));
-        menuList.add(new MenuItem("Omelette Fried Rice", "Kantin Ponlab 3", "Start from 14rb • Pondok Labu • available in 12 min", R.drawable.app_logo));
-        menuList.add(new MenuItem("Indomie Noodles", "Kantin Ponlab 4", "Start from 6rb • Pondok Labu • available in 8 min", R.drawable.app_logo));
+        menuList.add(new MenuItem("Chicken Geprek", "Kantin Ponlab 1", "Rp15,000 • available immediately", R.drawable.app_logo));
+        menuList.add(new MenuItem("Chicken Skewers", "Kantin Ponlab 2", "Rp20,000 • available in 10 min", R.drawable.app_logo));
+        menuList.add(new MenuItem("Omelette Fried Rice", "Kantin Ponlab 3", "Rp14,000 • available in 12 min", R.drawable.app_logo));
+        menuList.add(new MenuItem("Indomie Noodles", "Kantin Ponlab 4", "Rp6,000 • available in 8 min", R.drawable.app_logo));
 
         adapter = new MenuAdapter1(menuList);
         recyclerView.setAdapter(adapter);

@@ -1,91 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginBottom="12dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginTop="8dp"
-    android:layout_marginBottom="8dp"
-    android:layout_marginStart="8dp"
-    android:layout_marginEnd="23dp"
-    android:elevation="2dp"
-    android:padding="8dp"
-    app:cardCornerRadius="10dp">
+    app:cardCornerRadius="16dp"
+    android:elevation="2dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp">
+        android:padding="8dp"
+        android:orientation="horizontal">
 
-        <FrameLayout
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_gravity="center_vertical">
+        <RelativeLayout
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_marginEnd="8dp">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/image"
+            <ImageView
+                android:id="@+id/imgMenu"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/gradient_default"
-                app:shapeAppearanceOverlay="@style/RoundedImage" />
+                android:src="@drawable/app_logo"
+                android:background="@drawable/bg_card"
+                android:clipToOutline="true"/>
 
+            <!-- Rating -->
             <TextView
-                android:id="@+id/ratingLabel"
+                android:id="@+id/ratingBadge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:background="@drawable/bg_rating_menu"
                 android:paddingHorizontal="6dp"
                 android:paddingVertical="2dp"
-                android:background="@drawable/bg_rating_menu"
-                android:text="★ 4.7 (351)"
-                android:textColor="#FFFFFF"
-                android:textSize="8sp"
-                android:layout_gravity="top|start"
-                android:elevation="2dp" />
-        </FrameLayout>
-
+                android:text="★ 4.9 (789)"
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:paddingStart="8dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/name"
-                android:text="Menu 1"
+                android:id="@+id/txtMenuName"
+                android:text="Chicken Geprek"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/canteenName"
-                android:text="Kantin AAA"
+                android:id="@+id/txtCanteen"
+                android:text="Kantin Ponlab 1"
+                android:textSize="14sp"
+                android:textColor="#777"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#666666"
-                android:textSize="14sp" />
+                android:layout_height="wrap_content"/>
 
             <TextView
-                android:id="@+id/leastInfo"
-                android:text="Rp.10,000 • available in xx min"
+                android:id="@+id/txtInfo"
+                android:text="Start from 15rb • Pondok Labu • available in 15 min"
+                android:textSize="12sp"
+                android:textColor="#888"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#888888"
-                android:textSize="10sp" />
+                android:layout_height="wrap_content"/>
 
             <LinearLayout
+                android:layout_marginTop="4dp"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp">
+                android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/labelDiscount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="4dp"
@@ -97,9 +91,9 @@
                     tools:ignore="TextContrastCheck" />
 
                 <TextView
-                    android:id="@+id/labelFreeDrink"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
                     android:background="#FFF2CC"
                     android:padding="4dp"
                     android:text="Free Drink"
@@ -110,11 +104,11 @@
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/favoriteIcon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:id="@+id/btnFavorite"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:src="@drawable/ic_love"
-            android:layout_gravity="top|end"
-            android:layout_marginEnd="8dp" />
+            android:layout_gravity="top"
+            android:padding="4dp"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
