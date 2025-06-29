@@ -56,7 +56,10 @@ public class LogIn extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (sharedPreferences.getBoolean("isLoggedIn", false)) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
+
+        if (isLoggedIn && currentUser != null) {
             startActivity(new Intent(LogIn.this, MainPage.class));
             finish();
         }

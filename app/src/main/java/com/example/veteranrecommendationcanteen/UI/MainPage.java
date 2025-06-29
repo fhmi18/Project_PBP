@@ -23,20 +23,34 @@ import com.example.veteranrecommendationcanteen.UI.MainFragment.FavoriteFragment
 import com.example.veteranrecommendationcanteen.UI.MainFragment.HistoryFragment;
 import com.example.veteranrecommendationcanteen.UI.MainFragment.ProfileFragment;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainPage extends AppCompatActivity {
 
     private long backPressedTime;
     private FragmentManager fragmentManager;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        setActiveNav("Home");
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
 
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
+
+        if (currentUser == null || !isLoggedIn) {
+            Intent intent = new Intent(MainPage.this, LogIn.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
+        setContentView(R.layout.activity_main);
+        setActiveNav("Home");
+
         String userEmail = sharedPreferences.getString("userEmail", "User");
 
         fragmentManager = getSupportFragmentManager();
