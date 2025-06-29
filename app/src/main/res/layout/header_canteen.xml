@@ -133,6 +133,153 @@
             android:textSize="13sp"
             android:layout_marginTop="8dp" />
 
+        <TextView
+            android:id="@+id/totalLike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="xxx orang menyukai kantin ini."
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:layout_marginTop="5dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:gravity="center_vertical">
+
+            <!-- Kolom 1: Reviews -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tvRatingValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="5"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"/>
+
+                <TextView
+                    android:id="@+id/tvRatingLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="99+ Reviews"
+                    android:textSize="12sp"
+                    android:textColor="#666666"/>
+            </LinearLayout>
+
+            <!-- Divider Vertikal -->
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#DDDDDD"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"/>
+
+            <!-- Kolom 2: Menu Variants -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tvMenuCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"/>
+
+                <TextView
+                    android:id="@+id/tvMenuLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Menu variants"
+                    android:textSize="12sp"
+                    android:textColor="#666666"/>
+            </LinearLayout>
+
+            <!-- Divider Vertikal -->
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#DDDDDD"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"/>
+
+            <!-- Kolom 3: Price Range -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tvPriceRange"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="15-50rb"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"/>
+
+                <TextView
+                    android:id="@+id/tvPriceLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Price range"
+                    android:textSize="12sp"
+                    android:textColor="#666666"/>
+            </LinearLayout>
+
+            <!-- Divider Vertikal -->
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#DDDDDD"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"/>
+
+            <!-- Kolom 4: Opening Hours -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tvOpeningHours"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="7AM-7PM"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"/>
+
+                <TextView
+                    android:id="@+id/tvHoursLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Opening hours"
+                    android:textSize="12sp"
+                    android:textColor="#666666"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
         <!-- ✅ Tambahan: Owner + Contact -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -163,6 +310,7 @@
 
         <!-- ✅ Tambahan: Diskon -->
         <TextView
+            android:id="@+id/discountSectionTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Discount for you"

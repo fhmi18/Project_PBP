@@ -15,13 +15,14 @@ import com.bumptech.glide.Glide;
 import com.example.veteranrecommendationcanteen.UI.MenuDetail;
 
 import java.util.List;
+import java.util.Locale;
 
 public class MenuAdapter2 extends RecyclerView.Adapter<MenuAdapter2.MenuViewHolder> {
     private final Context context;
     private final List<MenuItem> menuItems;
     private boolean isGridMode;
 
-    // Variabel untuk menyimpan path yang diperlukan
+    // Variables to store necessary paths
     private String campusId;
     private String canteenId;
     private String categoryPath;
@@ -37,7 +38,7 @@ public class MenuAdapter2 extends RecyclerView.Adapter<MenuAdapter2.MenuViewHold
         this.canteenId = canteenId;
     }
 
-    // Metode untuk mengatur path kategori saat tab berubah
+    // Method to set the category path when the tab changes
     public void setCategoryPath(String categoryPath) {
         this.categoryPath = categoryPath;
     }
@@ -67,15 +68,19 @@ public class MenuAdapter2 extends RecyclerView.Adapter<MenuAdapter2.MenuViewHold
         if (item == null) return;
 
         holder.name.setText(item.getName());
-        holder.price.setText(String.format("Rp%,d", item.getPrice()));
+        holder.price.setText(String.format(Locale.GERMAN, "Rp%,d", item.getPrice()));
+
+        String imageUrl = item.getGambarUrl() != null && !item.getGambarUrl().isEmpty()
+                ? item.getGambarUrl().get(0)
+                : null;
 
         Glide.with(context)
-                .load(item.getFotoUrl())
+                .load(imageUrl)
                 .placeholder(R.drawable.app_logo)
                 .error(R.drawable.ic_launcher_background)
                 .into(holder.image);
 
-        // Set OnClickListener untuk seluruh item
+        // Set OnClickListener for the entire item
         holder.button.setOnClickListener(v -> {
             if (item.getMenuId() == null || categoryPath == null) {
                 Toast.makeText(context, "Menu data is incomplete.", Toast.LENGTH_SHORT).show();
@@ -105,7 +110,7 @@ public class MenuAdapter2 extends RecyclerView.Adapter<MenuAdapter2.MenuViewHold
             image = itemView.findViewById(R.id.menuImage);
             name = itemView.findViewById(R.id.menuName);
             price = itemView.findViewById(R.id.menuPrice);
-            button = itemView.findViewById(R.id.menuButton);
+            button = itemView.findViewById(R.id.menuButton); // Optional, depending on layout
         }
     }
 }

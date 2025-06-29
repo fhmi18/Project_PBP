@@ -11,10 +11,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.example.veteranrecommendationcanteen.UI.CanteenDetail;
+import com.example.veteranrecommendationcanteen.UI.MenuDetail;
 
 import java.util.List;
+import java.util.Locale;
 
 public class RecommendationAdapter extends RecyclerView.Adapter<RecommendationAdapter.RecommendationViewHolder> {
     private List<Object> itemList;
@@ -28,7 +31,7 @@ public class RecommendationAdapter extends RecyclerView.Adapter<RecommendationAd
     @NonNull
     @Override
     public RecommendationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_menu, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_recommendation, parent, false);
         return new RecommendationViewHolder(view);
     }
 
@@ -48,16 +51,21 @@ public class RecommendationAdapter extends RecyclerView.Adapter<RecommendationAd
         } else if (item instanceof MenuItem) {
             MenuItem menu = (MenuItem) item;
             holder.title.setText(menu.getName());
-            holder.subtitle.setText(String.format("Rp%,d", menu.getPrice()));
+            holder.subtitle.setText(String.format(Locale.GERMAN, "Rp%,d", menu.getPrice()));
             holder.description.setText(menu.getDescription());
+            String imageUrl = menu.getGambarUrl() != null && !menu.getGambarUrl().isEmpty()
+                    ? menu.getGambarUrl().get(0)
+                    : null;
+
             Glide.with(context)
-                    .load(menu.getFotoUrl())
+                    .load(imageUrl)
                     .placeholder(R.drawable.app_logo)
                     .error(R.drawable.ic_launcher_background)
                     .into(holder.image);
+
         }
 
-        // Tambahkan OnClickListener ke item view
+        // Add OnClickListener to the item view
         holder.itemView.setOnClickListener(v -> {
             if (item instanceof CanteenItem) {
                 CanteenItem canteen = (CanteenItem) item;
@@ -69,8 +77,21 @@ public class RecommendationAdapter extends RecyclerView.Adapter<RecommendationAd
                 } else {
                     Toast.makeText(context, "Canteen ID is missing.", Toast.LENGTH_SHORT).show();
                 }
+            } else if (item instanceof MenuItem) {
+                MenuItem menu = (MenuItem) item;
+                if (menu.getCampusId() != null && menu.getCanteenId() != null &&
+                        menu.getCategoryPath() != null && menu.getMenuId() != null) {
+
+                    Intent intent = new Intent(context, MenuDetail.class);
+                    intent.putExtra("CAMPUS_ID", menu.getCampusId());
+                    intent.putExtra("CANTEEN_ID", menu.getCanteenId());
+                    intent.putExtra("CATEGORY_PATH", menu.getCategoryPath());
+                    intent.putExtra("MENU_ID", menu.getMenuId());
+                    context.startActivity(intent);
+                } else {
+                    Toast.makeText(context, "Menu data is incomplete.", Toast.LENGTH_SHORT).show();
+                }
             }
-            // Tambahkan logika klik untuk MenuItem jika perlu
         });
     }
 
@@ -85,11 +106,11 @@ public class RecommendationAdapter extends RecyclerView.Adapter<RecommendationAd
 
         public RecommendationViewHolder(@NonNull View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.name);
-            subtitle = itemView.findViewById(R.id.canteenName);
-            description = itemView.findViewById(R.id.leastInfo);
-            image = itemView.findViewById(R.id.image);
-            itemView.findViewById(R.id.favoriteIcon).setVisibility(View.GONE);
+            title = itemView.findViewById(R.id.txtMenuName);
+            subtitle = itemView.findViewById(R.id.txtCanteen);
+            description = itemView.findViewById(R.id.txtInfo);
+            image = itemView.findViewById(R.id.imgMenu);
+            itemView.findViewById(R.id.btnFavorite).setVisibility(View.GONE);
         }
     }
 }

@@ -97,7 +97,6 @@ public class SignUp extends AppCompatActivity {
                                         }
                                     });
 
-                            // Panggil metode validasi email untuk memastikan pengguna telah verifikasi
                             validateEmailVerification();
                         }
                     } else {

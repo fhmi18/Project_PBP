@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import android.widget.LinearLayout;
 import android.widget.ImageView;
@@ -35,15 +36,18 @@ public class MainPage extends AppCompatActivity {
 
         setActiveNav("Home");
 
-        // Ambil email dari SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String userEmail = sharedPreferences.getString("userEmail", "User");
 
-        // Inisialisasi FragmentManager dan tampilkan default fragment (Home)
         fragmentManager = getSupportFragmentManager();
         replaceFragment(new HomeFragment());
 
-        // Navigasi bottom bar
+        ImageButton navLogo = findViewById(R.id.navLogo);
+        navLogo.setOnClickListener(v -> {
+            Intent intent = new Intent(MainPage.this, MyReviews.class);
+            startActivity(intent);
+        });
+
         findViewById(R.id.navHome).setOnClickListener(v -> {
             replaceFragment(new HomeFragment());
             setActiveNav("Home");
@@ -61,12 +65,11 @@ public class MainPage extends AppCompatActivity {
             setActiveNav("Profile");
         });
 
-        // Handle back press dengan dispatcher
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
                 if (backPressedTime + 2000 > System.currentTimeMillis()) {
-                    finish(); // Keluar dari aktivitas
+                    finish();
                 } else {
                     Toast.makeText(MainPage.this, "Tekan sekali lagi untuk keluar", Toast.LENGTH_SHORT).show();
                     backPressedTime = System.currentTimeMillis();
@@ -82,7 +85,6 @@ public class MainPage extends AppCompatActivity {
     }
 
     private void setActiveNav(String active) {
-        // Ambil semua komponen langsung
         LinearLayout navHomeContainer = findViewById(R.id.navHomeContainer);
         ImageView navHome = findViewById(R.id.navHome);
         TextView navHomeText = findViewById(R.id.navHomeText);
@@ -102,7 +104,6 @@ public class MainPage extends AppCompatActivity {
         View backLogoLeft = findViewById(R.id.backgroundLogoLeft);
         View backLogoRight = findViewById(R.id.backgroundLogoRight);
 
-        // Mapkan semua elemen ke dalam array agar tetap terstruktur
         String[] ids = {"Home", "Favorite", "History", "Profile"};
         LinearLayout[] containers = {navHomeContainer, navFavoriteContainer, navHistoryContainer, navProfileContainer};
         ImageView[] icons = {navHome, navFavorite, navHistory, navProfile};
@@ -145,5 +146,4 @@ public class MainPage extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
 }

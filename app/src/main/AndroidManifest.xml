@@ -15,6 +15,18 @@
         android:theme="@style/Theme.VCR"
         tools:targetApi="31">
         <activity
+            android:name=".UI.MyReviews"
+            android:exported="false" />
+        <activity
+            android:name=".UI.ProfileSettings"
+            android:exported="false" />
+        <activity
+            android:name=".UI.AccountSettings"
+            android:exported="false" />
+        <activity
+            android:name=".UI.ReviewList"
+            android:exported="false" />
+        <activity
             android:name=".UI.Recommendation"
             android:exported="false" />
         <activity
@@ -41,6 +53,10 @@
         <activity
             android:name=".UI.CanteenDetail"
             android:exported="false" />
+        <activity
+            android:name=".UI.FullscreenImageActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
     </application>
 
 </manifest>

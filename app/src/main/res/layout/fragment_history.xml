@@ -19,7 +19,6 @@
             android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp">
 
-            <!-- Judul -->
             <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
@@ -38,54 +37,100 @@
                 android:layout_marginBottom="8dp" />
         </LinearLayout>
 
-        <!-- Filter -->
         <LinearLayout
-            android:id="@+id/filterContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
             android:layout_marginBottom="8dp">
 
             <Button
+                android:id="@+id/filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:backgroundTint="#EEEEEE"
                 android:minWidth="0dp"
                 android:minHeight="0dp"
-                android:text="Food"
+                android:text="Filter"
                 android:textColor="@color/black"
                 android:textSize="10sp"
                 tools:ignore="TouchTargetSizeCheck" />
 
-            <Button
-                android:layout_width="wrap_content"
+            <HorizontalScrollView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:backgroundTint="#EEEEEE"
-                android:minWidth="0dp"
-                android:minHeight="0dp"
-                android:text="Dessert &amp; Snack"
-                android:textColor="@color/black"
-                android:textSize="10sp"
-                tools:ignore="TouchTargetSizeCheck" />
+                android:scrollbars="none">
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:backgroundTint="#EEEEEE"
-                android:minWidth="0dp"
-                android:minHeight="0dp"
-                android:text="Beverage"
-                android:textColor="@color/black"
-                android:textSize="10sp"
-                tools:ignore="TouchTargetSizeCheck" />
+                <LinearLayout
+                    android:id="@+id/filterContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <Button
+                        android:id="@+id/filterFood"
+                        style="@style/CustomOutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:text="Food"
+                        android:textColor="@color/Primary"
+                        android:textSize="10sp"
+                        app:strokeColor="@color/Primary"
+                        app:strokeWidth="2dp"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                    <Button
+                        android:id="@+id/filterDesertSnacks"
+                        style="@style/CustomOutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:text="Dessert &amp; Snack"
+                        android:textColor="@color/Primary"
+                        android:textSize="10sp"
+                        app:strokeColor="@color/Primary"
+                        app:strokeWidth="2dp"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                    <Button
+                        android:id="@+id/filterBeverage"
+                        style="@style/CustomOutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:text="Beverage"
+                        android:textColor="@color/Primary"
+                        android:textSize="10sp"
+                        app:strokeColor="@color/Primary"
+                        app:strokeWidth="2dp"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                    <Button
+                        android:id="@+id/filterOthers"
+                        style="@style/CustomOutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:text="Other"
+                        android:textColor="@color/Primary"
+                        android:textSize="10sp"
+                        app:strokeColor="@color/Primary"
+                        app:strokeWidth="2dp"
+                        tools:ignore="TouchTargetSizeCheck" />
+                </LinearLayout>
+            </HorizontalScrollView>
         </LinearLayout>
 
-        <!-- RecyclerView -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"

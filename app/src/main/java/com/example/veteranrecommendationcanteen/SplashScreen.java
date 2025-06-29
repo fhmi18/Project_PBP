@@ -14,7 +14,7 @@ public class SplashScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash); // Buat layout splash jika diperlukan
+        setContentView(R.layout.activity_splash);
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
@@ -28,6 +28,6 @@ public class SplashScreen extends AppCompatActivity {
             }
             startActivity(intent);
             finish();
-        }, 2000); // Tampilkan splash screen selama 2 detik
+        }, 2000);
     }
 }

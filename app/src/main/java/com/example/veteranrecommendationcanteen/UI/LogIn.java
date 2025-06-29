@@ -56,7 +56,6 @@ public class LogIn extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        // Jika sudah login sebelumnya, langsung ke MainActivity
         if (sharedPreferences.getBoolean("isLoggedIn", false)) {
             startActivity(new Intent(LogIn.this, MainPage.class));
             finish();
@@ -84,7 +83,6 @@ public class LogIn extends AppCompatActivity {
                 FirebaseUser user = mAuth.getCurrentUser();
                 if (user != null) {
                     if (user.isEmailVerified()) {
-                        // Simpan status login jika email sudah diverifikasi
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putBoolean("isLoggedIn", true);
                         editor.putString("userEmail", user.getEmail());
@@ -97,7 +95,6 @@ public class LogIn extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     } else {
-                        // Jika email belum diverifikasi, logout otomatis
                         mAuth.signOut();
                         Toast.makeText(LogIn.this, "Verifikasi email Anda sebelum login!", Toast.LENGTH_LONG).show();
                     }

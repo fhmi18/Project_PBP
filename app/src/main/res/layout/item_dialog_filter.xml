@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Filter Berdasarkan Kampus"
+        android:textStyle="bold"
+        android:textColor="@android:color/black" />
+
+    <RadioGroup
+        android:id="@+id/rg_campus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="8dp">
+
+        <RadioButton
+            android:id="@+id/rb_campus_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Semua Kampus" />
+
+        <RadioButton
+            android:id="@+id/rb_campus_pl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kampus Pondok Labu" />
+
+        <RadioButton
+            android:id="@+id/rb_campus_limo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kampus Limo" />
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Urutkan Berdasarkan Waktu"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="16dp"/>
+
+    <RadioGroup
+        android:id="@+id/rg_sort_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="8dp">
+
+        <RadioButton
+            android:id="@+id/rb_sort_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Terbaru (Descending)" />
+
+        <RadioButton
+            android:id="@+id/rb_sort_asc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Terlama (Ascending)" />
+    </RadioGroup>
+
+</LinearLayout>
