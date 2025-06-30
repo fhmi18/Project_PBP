@@ -95,66 +95,98 @@ public class HistoryFragment extends Fragment {
                 .collection("history")
                 .orderBy("visitedAt", sortDirection);
 
-        historyQuery.get().addOnSuccessListener(queryDocumentSnapshots -> {
-            if (queryDocumentSnapshots.isEmpty()) {
+        historyQuery.get().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Toast.makeText(getContext(), "Failed to load history: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (task.getResult().isEmpty()) {
                 masterHistoryList.clear();
                 applyFilters();
                 return;
             }
 
-            List<Task<DocumentSnapshot>> menuTasks = new ArrayList<>();
-            Map<String, DocumentSnapshot> historyDocs = new HashMap<>();
+            List<Task<DocumentSnapshot>> menuDetailTasks = new ArrayList<>();
+            Map<Task<DocumentSnapshot>, DocumentSnapshot> taskToHistoryDocMap = new HashMap<>();
 
-            for (QueryDocumentSnapshot historyDoc : queryDocumentSnapshots) {
-                String menuId = historyDoc.getString("menuId");
+            for (QueryDocumentSnapshot historyDoc : task.getResult()) {
                 String campusId = historyDoc.getString("campusId");
                 String canteenId = historyDoc.getString("canteenId");
                 String categoryPath = historyDoc.getString("categoryPath");
+                String menuId = historyDoc.getString("menuId");
+
+                if (campusId == null || canteenId == null || categoryPath == null || menuId == null) {
+                    continue;
+                }
 
                 if (!"Semua".equals(selectedCampusId) && !selectedCampusId.equals(campusId)) {
                     continue;
                 }
 
-                if (menuId == null) continue;
-
                 DocumentReference menuRef = db.collection("kampus").document(campusId)
                         .collection("kantin").document(canteenId)
                         .collection(categoryPath).document(menuId);
 
-                menuTasks.add(menuRef.get());
-                historyDocs.put(menuId, historyDoc);
+                Task<DocumentSnapshot> menuDetailTask = menuRef.get();
+                menuDetailTasks.add(menuDetailTask);
+                taskToHistoryDocMap.put(menuDetailTask, historyDoc);
             }
 
-            Tasks.whenAllSuccess(menuTasks).addOnSuccessListener(results -> {
+            Tasks.whenAllSuccess(menuDetailTasks).addOnSuccessListener(results -> {
                 masterHistoryList.clear();
-                for (Object result : results) {
-                    DocumentSnapshot menuDoc = (DocumentSnapshot) result;
-                    if (menuDoc.exists()) {
+                List<Task<Void>> canteenNameTasks = new ArrayList<>();
+
+                for (Task<DocumentSnapshot> completedTask : menuDetailTasks) {
+                    DocumentSnapshot menuDoc = completedTask.getResult(); // Dapatkan hasil dari task
+
+                    if (menuDoc != null && menuDoc.exists()) {
                         MenuItem menuItem = menuDoc.toObject(MenuItem.class);
                         if (menuItem != null) {
-                            DocumentSnapshot historyDoc = historyDocs.get(menuDoc.getId());
-                            menuItem.setMenuId(menuDoc.getId());
-                            menuItem.setCampusId(historyDoc.getString("campusId"));
-                            menuItem.setCanteenId(historyDoc.getString("canteenId"));
-                            menuItem.setCategoryPath(historyDoc.getString("categoryPath"));
+                            DocumentSnapshot historyDoc = taskToHistoryDocMap.get(completedTask);
 
-                            db.collection("kampus").document(menuItem.getCampusId()).collection("kantin").document(menuItem.getCanteenId()).get()
-                                    .addOnSuccessListener(canteenDoc -> {
-                                        if(canteenDoc.exists()){
-                                            menuItem.canteenName = canteenDoc.getString("nama_kantin");
-                                            adapter.notifyDataSetChanged();
-                                        }
-                                    });
+                            if (historyDoc != null) {
+                                menuItem.setMenuId(menuDoc.getId());
+                                menuItem.setCampusId(historyDoc.getString("campusId"));
+                                menuItem.setCanteenId(historyDoc.getString("canteenId"));
+                                menuItem.setCategoryPath(historyDoc.getString("categoryPath"));
 
-                            masterHistoryList.add(menuItem);
+                                Task<Void> canteenNameTask = db.collection("kampus").document(menuItem.getCampusId())
+                                        .collection("kantin").document(menuItem.getCanteenId()).get()
+                                        .onSuccessTask(canteenDoc -> {
+                                            if (canteenDoc.exists()) {
+                                                menuItem.canteenName = canteenDoc.getString("nama_kantin");
+                                            }
+                                            return Tasks.forResult(null);
+                                        });
+                                canteenNameTasks.add(canteenNameTask);
+                                masterHistoryList.add(menuItem);
+                            }
                         }
                     }
                 }
-                applyFilters();
+
+                Tasks.whenAll(canteenNameTasks).addOnCompleteListener(canteenTask -> {
+                    applyFilters();
+                });
+
+            }).addOnFailureListener(e -> {
+                Toast.makeText(getContext(), "Error fetching menu details.", Toast.LENGTH_SHORT).show();
             });
-        }).addOnFailureListener(e -> {
-            Toast.makeText(getContext(), "Failed to load history.", Toast.LENGTH_SHORT).show();
         });
+    }
+
+    private void applyFilters() {
+        List<MenuItem> filteredList;
+        if (activeCategoryFilters.isEmpty()) {
+            filteredList = new ArrayList<>(masterHistoryList);
+        } else {
+            filteredList = masterHistoryList.stream()
+                    .filter(menuItem -> menuItem != null && menuItem.getCategoryPath() != null && activeCategoryFilters.contains(menuItem.getCategoryPath()))
+                    .collect(Collectors.toList());
+        }
+
+        adapter.updateData(filteredList);
     }
 
     private void setupCategoryFilterButtons(View view) {
@@ -218,19 +250,6 @@ public class HistoryFragment extends Fragment {
 
             builder.create().show();
         });
-    }
-
-    private void applyFilters() {
-        if (activeCategoryFilters.isEmpty()) {
-            adapter.updateData(masterHistoryList);
-            return;
-        }
-
-        List<MenuItem> filteredList = masterHistoryList.stream()
-                .filter(menuItem -> activeCategoryFilters.contains(menuItem.getCategoryPath()))
-                .collect(Collectors.toList());
-
-        adapter.updateData(filteredList);
     }
 
     private String getCategoryFromButtonId(int id) {

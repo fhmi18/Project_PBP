@@ -37,6 +37,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+    implementation("androidx.core:core-splashscreen:1.0.1")
 
     implementation(platform(libs.google.firebase.bom))
     implementation(libs.firebase.auth)

@@ -7,15 +7,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.veteranrecommendationcanteen.UI.MenuDetail;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.HashMap;
 
 public class MenuAdapter1 extends RecyclerView.Adapter<MenuAdapter1.MenuViewHolder> {
 
@@ -59,6 +66,26 @@ public class MenuAdapter1 extends RecyclerView.Adapter<MenuAdapter1.MenuViewHold
             holder.image.setImageResource(R.drawable.app_logo);
         }
 
+        String docId = item.getMenuId() + "_" + item.getCanteenId();
+        DocumentReference favoriteRef = db.collection("users")
+                .document(currentUser.getUid())
+                .collection("favorites")
+                .document(docId);
+
+        holder.btnFavorite.setImageResource(R.drawable.ic_love);
+
+        if (currentUser != null) {
+            favoriteRef.get().addOnSuccessListener(doc -> {
+                if (doc.exists()) {
+                    holder.btnFavorite.setImageResource(R.drawable.ic_loved);
+                    holder.btnFavorite.setTag(true);
+                } else {
+                    holder.btnFavorite.setImageResource(R.drawable.ic_love);
+                    holder.btnFavorite.setTag(false);
+                }
+            });
+        }
+
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, MenuDetail.class);
             intent.putExtra("CAMPUS_ID", item.getCampusId());
@@ -66,6 +93,43 @@ public class MenuAdapter1 extends RecyclerView.Adapter<MenuAdapter1.MenuViewHold
             intent.putExtra("CATEGORY_PATH", item.getCategoryPath());
             intent.putExtra("MENU_ID", item.getMenuId());
             context.startActivity(intent);
+        });
+
+        holder.btnFavorite.setOnClickListener(v -> {
+            if (currentUser == null) {
+                Toast.makeText(context, "Please log in to manage favorites.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            boolean isFavorited = holder.btnFavorite.getTag() != null && (boolean) holder.btnFavorite.getTag();
+
+            if (isFavorited) {
+                favoriteRef.delete().addOnSuccessListener(unused -> {
+                    Toast.makeText(context, "Removed from favorites", Toast.LENGTH_SHORT).show();
+                    holder.btnFavorite.setImageResource(R.drawable.ic_love);
+                    holder.btnFavorite.setTag(false);
+                    if (favoriteRemovedListener != null) {
+                        favoriteRemovedListener.onFavoriteRemoved(item);
+                    }
+                }).addOnFailureListener(e -> {
+                    Toast.makeText(context, "Failed to remove favorite", Toast.LENGTH_SHORT).show();
+                });
+            } else {
+                Map<String, Object> favoriteData = new HashMap<>();
+                favoriteData.put("menuId", item.getMenuId());
+                favoriteData.put("campusId", item.getCampusId());
+                favoriteData.put("canteenId", item.getCanteenId());
+                favoriteData.put("categoryPath", item.getCategoryPath());
+                favoriteData.put("addedAt", com.google.firebase.firestore.FieldValue.serverTimestamp());
+
+                favoriteRef.set(favoriteData).addOnSuccessListener(unused -> {
+                    Toast.makeText(context, "Added to favorites", Toast.LENGTH_SHORT).show();
+                    holder.btnFavorite.setImageResource(R.drawable.ic_loved);
+                    holder.btnFavorite.setTag(true);
+                }).addOnFailureListener(e -> {
+                    Toast.makeText(context, "Failed to add favorite", Toast.LENGTH_SHORT).show();
+                });
+            }
         });
     }
 
@@ -76,7 +140,7 @@ public class MenuAdapter1 extends RecyclerView.Adapter<MenuAdapter1.MenuViewHold
 
     public static class MenuViewHolder extends RecyclerView.ViewHolder {
         TextView name, canteenName, leastInfo;
-        ImageView image;
+        ImageView image, btnFavorite;
 
         public MenuViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -84,6 +148,19 @@ public class MenuAdapter1 extends RecyclerView.Adapter<MenuAdapter1.MenuViewHold
             canteenName = itemView.findViewById(R.id.canteenName);
             leastInfo = itemView.findViewById(R.id.leastInfo);
             image = itemView.findViewById(R.id.image);
+            btnFavorite = itemView.findViewById(R.id.favoriteIcon);
         }
+    }
+
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+    private OnFavoriteRemovedListener favoriteRemovedListener;
+
+    public interface OnFavoriteRemovedListener {
+        void onFavoriteRemoved(MenuItem removedItem);
+    }
+
+    public void setOnFavoriteRemovedListener(OnFavoriteRemovedListener listener) {
+        this.favoriteRemovedListener = listener;
     }
 }

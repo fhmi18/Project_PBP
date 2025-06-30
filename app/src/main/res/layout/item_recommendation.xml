@@ -103,12 +103,30 @@
             </LinearLayout>
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/btnFavorite"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_love"
-            android:layout_gravity="top"
-            android:padding="4dp"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/btnLike"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="top"
+                android:background="@color/white"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_like"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <TextView
+                android:id="@+id/txtLikeCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="10"
+                android:textColor="@color/Primary"
+                android:textSize="14sp"
+                tools:ignore="TextContrastCheck" />
+        </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

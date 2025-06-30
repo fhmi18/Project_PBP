@@ -69,6 +69,11 @@ public class FavoriteFragment extends Fragment {
         adapter = new MenuAdapter1(getContext(), new ArrayList<>());
         recyclerView.setAdapter(adapter);
 
+        adapter.setOnFavoriteRemovedListener(removedItem -> {
+            masterFavoriteList.remove(removedItem);
+            applyFilters();
+        });
+
         setupCategoryFilterButtons(view);
         setupAdvancedFilterButton(view);
 

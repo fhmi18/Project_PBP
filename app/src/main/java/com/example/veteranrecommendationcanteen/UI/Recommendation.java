@@ -106,7 +106,6 @@ public class Recommendation extends AppCompatActivity {
                     CanteenItem canteen = document.toObject(CanteenItem.class);
                     canteen.setCanteenId(document.getId());
                     if ("ALL".equals(selectedCampusId)) {
-                        // Dari dokumen di koleksi 'kantin', induknya adalah dokumen 'kampus'
                         canteen.setCampusId(document.getReference().getParent().getParent().getId());
                     } else {
                         canteen.setCampusId(selectedCampusId);
@@ -144,7 +143,6 @@ public class Recommendation extends AppCompatActivity {
                             DocumentReference canteenRef = categoryRef.getParent();
                             menuItem.setCanteenId(canteenRef.getId());
 
-                            // PERBAIKAN: Dari Dokumen Kantin, perlu .getParent().getParent() untuk mencapai Dokumen Kampus
                             DocumentReference campusRef = canteenRef.getParent().getParent();
                             menuItem.setCampusId(campusRef.getId());
 
@@ -162,7 +160,7 @@ public class Recommendation extends AppCompatActivity {
         db.collection("kampus").document(campusId).collection("kantin").get()
                 .addOnSuccessListener(canteensSnapshot -> {
                     if (canteensSnapshot.isEmpty()) {
-                        adapter.notifyDataSetChanged(); // Tampilkan daftar kosong jika tidak ada kantin
+                        adapter.notifyDataSetChanged();
                         return;
                     }
                     List<Task<QuerySnapshot>> menuTasks = new ArrayList<>();
@@ -173,9 +171,7 @@ public class Recommendation extends AppCompatActivity {
 
                     Tasks.whenAllComplete(menuTasks).addOnCompleteListener(allTasks -> {
                         recommendationList.clear();
-                        // Loop pada list task awal
                         for (Task<QuerySnapshot> task : menuTasks) {
-                            // PERBAIKAN: Menghilangkan `instanceof` yang berlebihan
                             if (task.isSuccessful() && task.getResult() != null) {
                                 QuerySnapshot menuSnapshots = task.getResult();
                                 for (QueryDocumentSnapshot menuDoc : menuSnapshots) {

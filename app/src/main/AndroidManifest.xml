@@ -15,6 +15,9 @@
         android:theme="@style/Theme.VCR"
         tools:targetApi="31">
         <activity
+            android:name=".UI.Popular"
+            android:exported="false" />
+        <activity
             android:name=".UI.MyReviews"
             android:exported="false" />
         <activity
@@ -34,7 +37,8 @@
             android:exported="false" />
         <activity
             android:name=".SplashScreen"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.App.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
