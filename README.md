@@ -51,3 +51,18 @@ Sebuah aplikasi Android yang dirancang untuk membantu mahasiswa dan staf menemuk
 * **Library Pihak Ketiga**:
     * `Glide` untuk memuat gambar
     * `Material Components` untuk desain antarmuka modern
+
+___
+
+# 📸 Application Screenshots/Tampilan Aplikasi
+<img width="390" height="844" alt="Logo" src="https://github.com/user-attachments/assets/701debda-aa60-4305-9c06-6f256c6958ef" />
+<img width="390" height="844" alt="Sign In" src="https://github.com/user-attachments/assets/b8222f13-4b59-4315-8e92-f4015161a895" />
+<img width="390" height="844" alt="Sign Up" src="https://github.com/user-attachments/assets/4eaf3e0c-8ba8-4b34-ace2-d93bb42311a2" />
+<img width="390" height="844" alt="Home Screen" src="https://github.com/user-attachments/assets/49f8e627-a86f-4c53-9ac5-3eb532f3939e" />
+<img width="390" height="844" alt="Favorite Chat" src="https://github.com/user-attachments/assets/82ffa30d-cf1c-4acc-8f8e-795cfe5fc08e" />
+<img width="390" height="844" alt="Histpry Chat" src="https://github.com/user-attachments/assets/8fcf10eb-cc7e-49ba-a60f-dd9fe6d25681" />
+<img width="390" height="844" alt="Popular" src="https://github.com/user-attachments/assets/d1ab500f-7ef8-4312-a4e3-e1bdcc7afbf9" />
+<img width="390" height="844" alt="Popular-1" src="https://github.com/user-attachments/assets/fd533a94-45df-4795-b8c7-645127cc8e0c" />
+<img width="390" height="3199" alt="Detail Restoran" src="https://github.com/user-attachments/assets/6d53fe57-9b82-4ae8-ade5-b26a38372fd4" />
+<img width="390" height="844" alt="Komentar Simpel" src="https://github.com/user-attachments/assets/6f4215e9-a582-4cf8-b6ae-1757974a842c" />
+
